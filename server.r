@@ -29,12 +29,12 @@ shinyServer(function(input, output, session) {
     output$triangleUI <- renderMainPanel("Table")
     rval$tabs[[1]] <- tabPanel(input$file1$name, 
                                plotOutput("tableplot"),
-                               checkboxInput("showtable", "Show table",
-                                         value = isolate(input$showtable)),
-                               dataTableOutput("table"),
                                checkboxInput("showsummary", "Show summary",
                                          value = isolate(input$showsummary)),
-                               tableOutput("tablesummary")
+                               tableOutput("tablesummary"),
+                               checkboxInput("showtable", "Show table",
+                                             value = isolate(input$showtable)),
+                               dataTableOutput("table")
                                )
   })
   
@@ -49,7 +49,8 @@ shinyServer(function(input, output, session) {
     # If no table yet, nothing to summarize
     if (is.null(rval$df)) return(NULL)
     if (!input$showsummary) return(NULL)
-    summary(rval$df)
+    #summary(rval$df)
+    summaryStats(rval$df, c("prem", "incloss"))
   })
   
   output$tableplot <- renderPlot({
@@ -68,7 +69,7 @@ shinyServer(function(input, output, session) {
   observe({
     # If no file yet, no column names should be made available.
     if (is.null(rval$df)) return(NULL)
-    numnames <- names(rval$df)[sapply(rval$df, is.numeric)]
+    numnames <- names(rval$df)
     numnames <- c(Choose='', sort(numnames))
     updateSelectizeInput(session, 'colName', choices = numnames, 
                          options = list(render = I(
@@ -163,7 +164,6 @@ shinyServer(function(input, output, session) {
         n <- length(rval$tabs)
     
     nlist <- isolate(input$trishow)
-    flist <- oflistSelectFcn(nlist)
     displayname <- paste(field, nlist, sep = ".")
 
     rval$tabs[[N]] <- do.call(tabPanel, c(field,
@@ -207,12 +207,24 @@ shinyServer(function(input, output, session) {
     do.call(tabsetPanel, c("tabPanel", rval$tabs))
     })
 
-oflistSelectFcn <- function(x) {
-  sapply(x, function(a)
-    switch(a,
-           tri = "tableOutput",
-           plot = "plotOutput",
-           ata = "tableOutput"))
+  observe({
+    if(input$exitBtn > 0){
+      stopApp("Done")
+    }
+  })
+})
+summaryStats <- function(data, fields){
+  #  with(data, lapply(fields, summary))
+  y <- do.call(rbind, lapply(fields, function(x) {
+    z <- data[[x]]
+    data.frame(
+      nobs = sum(!is.na(z)),
+      min = min(z, na.rm = TRUE),
+      mean = mean(z, na.rm = TRUE),
+      max = max(z, na.rm = TRUE),
+      sum = sum(z, na.rm = TRUE)
+    )
+  }))
+  row.names(y) <- fields
+  y
 }
-
-}) 
