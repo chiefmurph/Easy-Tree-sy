@@ -2,8 +2,6 @@ options(shiny.maxRequestSize=30*1024^2)
 library(excelRio)
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(mondate))
-#suppressPackageStartupMessages(library(ChainLadder))
-library(ChainLadder)
 library(reshape2)
 
 logfile <- "log.txt"
