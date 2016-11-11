@@ -1,0 +1,10 @@
+name: Easy-Tree-sy
+account: trinostics
+server: shinyapps.io
+appId: 136931
+bundleId: 611325
+url: https://trinostics.shinyapps.io/Easy-Tree-sy/
+when: 1478802280.5407
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: 2017rpmdata.csv|2017rpmdata.xlsx|DollarsDecimals.r|LICENSE|log.txt|README.md|summaryStats.r
