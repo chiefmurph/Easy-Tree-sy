@@ -56,7 +56,7 @@ shinyServer(function(input, output, session) {
     if (is.null(rval$df)) return(NULL)
     if (!input$showsummary) return(NULL)
     #summary(rval$df)
-    summaryStats(rval$df, c("prem", "incloss"))
+    summaryStats(rval$df, c("prem", "incloss", "lossRatio"))
   })
   
   output$tableplot <- renderPlot({
