@@ -3,6 +3,7 @@ library(excelRio)
 suppressPackageStartupMessages(library(mondate))
 library(reshape2)
 library(data.table)
+library(ggplot2)
 
 logfile <- "log.txt"
 unlink(logfile) # start fresh
@@ -63,6 +64,14 @@ shinyServer(function(input, output, session) {
     # If no table yet, nothing to plot
     if (is.null(rval$df)) return(NULL)
     # distribution of 'class' in the data
+    dat <- rval$df
+    ggplot(data = x, aes(x = "all pols", y = prem)) + geom_boxplot()
+  })
+  
+  output$tableplot1 <- renderPlot({
+    # If no table yet, nothing to plot
+    if (is.null(rval$df)) return(NULL)
+    # distribution of 'class' in the data
     df <- rval$df
     cls <- sapply(df, class)
     tbl <- table(cls)
@@ -70,8 +79,8 @@ shinyServer(function(input, output, session) {
     pie(tbl, label = lbls, main = 
           paste0("Field type(s) in '", input$file1$name, "'"))
   })
-  
-  # Update the column name selection box based on the numeric's in the table
+
+    # Update the column name selection box based on the numeric's in the table
   observe({
     # If no file yet, no column names should be made available.
     if (is.null(rval$df)) return(NULL)
