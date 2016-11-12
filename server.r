@@ -1,8 +1,8 @@
 options(shiny.maxRequestSize=30*1024^2)
 library(excelRio)
-suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(mondate))
 library(reshape2)
+library(data.table)
 
 logfile <- "log.txt"
 unlink(logfile) # start fresh
@@ -19,8 +19,14 @@ shinyServer(function(input, output, session) {
   observeEvent(input$file1, { # New file chosen
     log("Read file '", input$file1$name)
     # Using data.table for its speed in adding columns
-    rval$df <- data.table(
-      readFromCsv(input$file1$datapath, header=TRUE, stringsAsFactors = FALSE))
+    dat <- data.table(
+      readFromCsv(input$file1$datapath, header=TRUE, stringsAsFactors = FALSE)
+    )
+    if ("lossRatio" %in% names(dat)) {
+      stopApp("app cannot replace organic field 'lossRatio'")
+    }
+    dat$lossRatio <- dat$incloss / dat$prem
+    rval$df <- dat
     # Wipe out any fields that may have been previously selected
     rval$fields <- NULL
     # this for conditional panel to only show buttons after file uploaded
