@@ -3,6 +3,7 @@ library(excelRio)
 suppressPackageStartupMessages(library(mondate))
 library(reshape2)
 library(data.table)
+library(DT)
 
 logfile <- "log.txt"
 unlink(logfile) # start fresh
