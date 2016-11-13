@@ -48,7 +48,7 @@ shinyServer(function(input, output, session) {
     # If no table yet, nothing to show
     if (is.null(rval$df)) return(NULL)
     if (!input$showtable) return(NULL)
-    rval$df
+    DT::datatable(rval$df, options = list(pageLength = 5), rownames = TRUE)
     }, options = list(lengthMenu = c(5, 20, 50), pageLength = 5))
   
   output$tablesummary <- renderTable({
@@ -57,7 +57,8 @@ shinyServer(function(input, output, session) {
     if (!input$showsummary) return(NULL)
     #summary(rval$df)
     summaryStats(rval$df, c("prem", "incloss", "lossRatio"))
-  })
+  },
+  include.rownames = TRUE)
   
   output$tableplot <- renderPlot({
     # If no table yet, nothing to plot
