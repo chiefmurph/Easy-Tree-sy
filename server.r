@@ -2,6 +2,7 @@ options(shiny.maxRequestSize=30*1024^2)
 library(excelRio)
 suppressPackageStartupMessages(library(mondate))
 library(reshape2)
+library(ggplot2)
 library(data.table)
 library(DT)
 
@@ -60,8 +61,23 @@ shinyServer(function(input, output, session) {
     summaryStats(rval$df, c("prem", "incloss", "lossRatio"))
   },
   include.rownames = TRUE)
-  
+
+  output$table <- renderDataTable({
+    # If no table yet, nothing to show
+    if (is.null(rval$df)) return(NULL)
+    if (!input$showtable) return(NULL)
+    DT::datatable(rval$df, options = list(pageLength = 5), rownames = TRUE)
+  }, options = list(lengthMenu = c(5, 20, 50), pageLength = 5))
+
   output$tableplot <- renderPlot({
+    # If no table yet, nothing to plot
+    if (is.null(rval$df)) return(NULL)
+    # distribution of 'class' in the data
+    dat <- rval$df
+    ggplot(data = dat, aes(x = "all pols", y = prem)) + geom_boxplot()
+  })
+  
+  output$tableplot1 <- renderPlot({
     # If no table yet, nothing to plot
     if (is.null(rval$df)) return(NULL)
     # distribution of 'class' in the data
