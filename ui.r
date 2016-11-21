@@ -14,6 +14,8 @@ shinyUI(pageWithSidebar(
          # http://data-steve.github.io/shiny-shutdown-with-browser-close/
          actionButton("exitBtn", "Exit app",
                       onclick = "setTimeout(function(){window.close();},500);")
+         , hr()
+         , textOutput('ready')
   ),
   mainPanel(
     uiOutput("triangleUI")

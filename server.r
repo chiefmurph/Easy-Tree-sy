@@ -18,6 +18,8 @@ shinyServer(function(input, output, session) {
   
   rval <- reactiveValues()
   
+  output$ready <- renderText(input$file1$name)
+
   observeEvent(input$file1, { # New file chosen
     log("Read file '", input$file1$name)
     # Using data.table for its speed in adding columns
@@ -33,7 +35,8 @@ shinyServer(function(input, output, session) {
     rval$fields <- NULL
     # this for conditional panel to only show buttons after file uploaded
     # but never got to work correctly
-    output$fileUploaded <- reactive(TRUE) 
+    #output$fileUploaded <- reactive(TRUE)
+    # put this after following tabPanel call?
     output$triangleUI <- renderMainPanel("Table")
     rval$tabs[[1]] <- tabPanel(input$file1$name, 
                                plotOutput("tableplot"),
