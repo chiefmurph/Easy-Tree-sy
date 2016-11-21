@@ -18,7 +18,7 @@ shinyServer(function(input, output, session) {
   
   rval <- reactiveValues()
   
-  output$ready <- renderText("ready")
+  output$ready <- renderText(input$file1$name)
 
   observeEvent(input$file1, { # New file chosen
     log("Read file '", input$file1$name)
