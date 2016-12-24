@@ -6,14 +6,6 @@ library(ggplot2)
 library(data.table)
 library(DT)
 
-logfile <- "log.txt"
-unlink(logfile) # start fresh
-
-timestamp <- function() format(Sys.time())
-
-log <- function(..., file = logfile, append = TRUE) 
-  cat(timestamp(), ": ", ..., "\n", sep = "", file = file, append = append)
-
 shinyServer(function(input, output, session) {
   
   rval <- reactiveValues()
@@ -21,7 +13,6 @@ shinyServer(function(input, output, session) {
   output$ready <- renderText(input$file1$name)
 
   observeEvent(input$file1, { # New file chosen
-    log("Read file '", input$file1$name)
     # Using data.table for its speed in adding columns
     dat <- data.table(
       readFromCsv(input$file1$datapath, header=TRUE, stringsAsFactors = FALSE)
@@ -129,7 +120,6 @@ shinyServer(function(input, output, session) {
       count.clsd <- as.numeric(rval$df$openclosed == "Closed")
     }
     if (somethingdone) {
-      log("Add count column(s)")
       rval$df <- if (rptd)
         if (clsd) 
           cbind(rval$df, count.rptd = count.rptd, count.clsd = count.clsd)
@@ -141,7 +131,6 @@ shinyServer(function(input, output, session) {
   
   # Add calculated fields accident year and accident year age.
   observeEvent(input$adday, {
-    log("Calculate new ay and ayage fields")
     ay <- mondate:::year(rval$df$lossdate)
     rval$df$ay <- ay
     # Use 'c' to strip difftime attribute, which generates xtable warning.
