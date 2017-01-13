@@ -1,0 +1,10 @@
+name: SplitPolicies
+account: trinostics
+server: shinyapps.io
+appId: 150829
+bundleId: 678120
+url: https://trinostics.shinyapps.io/SplitPolicies/
+when: 1484295397.94316
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: filename_only.R|trim.R

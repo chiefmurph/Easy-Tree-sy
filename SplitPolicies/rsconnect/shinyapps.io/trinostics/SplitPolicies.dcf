@@ -1,0 +1,9 @@
+name: SplitPolicies
+account: trinostics
+server: shinyapps.io
+appId: 150829
+bundleId: 678937
+url: https://trinostics.shinyapps.io/SplitPolicies/
+when: 1484349176.32687
+asMultiple: FALSE
+asStatic: FALSE
