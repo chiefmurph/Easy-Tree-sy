@@ -1,8 +1,13 @@
+# A helpful constant, also found in server.r
+cbins <- c("Train", "Test", "Validate")
 shinyUI(
   fluidPage(
     
     # Application title
-    titlePanel("Easy-Tree-sy: Split portfolio into Test/Train/Validate"),
+    titlePanel(
+      paste("Easy-Tree-sy: Split portfolio into",
+            paste(cbins, collapse = "/"))
+      ),
     
     sidebarLayout(
       
@@ -13,24 +18,24 @@ shinyUI(
                                'text/comma-separated-values,text/plain', 
                                '.csv')
         ),
-        radioButtons("d0", "0", c("Tst", "Trn", "Val"), selected = "Tst", inline=TRUE),
-        radioButtons("d1", "1", c("Tst", "Trn", "Val"), selected = "Tst", inline=TRUE),
-        radioButtons("d2", "2", c("Tst", "Trn", "Val"), selected = "Tst", inline=TRUE),
-        radioButtons("d3", "3", c("Tst", "Trn", "Val"), selected = "Tst", inline=TRUE),
-        radioButtons("d4", "4", c("Tst", "Trn", "Val"), selected = "Trn", inline=TRUE),
-        radioButtons("d5", "5", c("Tst", "Trn", "Val"), selected = "Trn", inline=TRUE),
-        radioButtons("d6", "6", c("Tst", "Trn", "Val"), selected = "Trn", inline=TRUE),
-        radioButtons("d7", "7", c("Tst", "Trn", "Val"), selected = "Val", inline=TRUE),
-        radioButtons("d8", "8", c("Tst", "Trn", "Val"), selected = "Val", inline=TRUE),
-        radioButtons("d9", "9", c("Tst", "Trn", "Val"), selected = "Val", inline=TRUE)
+        radioButtons("d0", "0", cbins, selected = cbins[1], inline=TRUE),
+        radioButtons("d1", "1", cbins, selected = cbins[1], inline=TRUE),
+        radioButtons("d2", "2", cbins, selected = cbins[1], inline=TRUE),
+        radioButtons("d3", "3", cbins, selected = cbins[1], inline=TRUE),
+        radioButtons("d4", "4", cbins, selected = cbins[2], inline=TRUE),
+        radioButtons("d5", "5", cbins, selected = cbins[2], inline=TRUE),
+        radioButtons("d6", "6", cbins, selected = cbins[2], inline=TRUE),
+        radioButtons("d7", "7", cbins, selected = cbins[3], inline=TRUE),
+        radioButtons("d8", "8", cbins, selected = cbins[3], inline=TRUE),
+        radioButtons("d9", "9", cbins, selected = cbins[3], inline=TRUE)
       ),
       
       # Show a plot of the generated distribution
       mainPanel(
         tableOutput("summaryLR"),
-        downloadButton("downloadSplit1", label = "Download Test"),
-        downloadButton("downloadSplit2", label = "Download Train"),
-        downloadButton("downloadSplit3", label = "Download Validate")
+        downloadButton("downloadSplit1", label = paste0("Download ", cbins[1])),
+        downloadButton("downloadSplit2", label = paste0("Download ", cbins[2])),
+        downloadButton("downloadSplit3", label = paste0("Download ", cbins[3]))
 #        , verbatimTextOutput("binPolnoVals")
       )
     )
