@@ -13,7 +13,7 @@ shinyUI(
       
       # Sidebar with a slider input
       sidebarPanel(
-        fileInput('file1', 'Choose csv file holding claim detail'
+        fileInput('file1', 'Choose csv file holding policy detail'
                   , accept = c('text/csv', 
                                'text/comma-separated-values,text/plain', 
                                '.csv')
