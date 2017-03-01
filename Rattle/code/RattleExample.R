@@ -1,5 +1,7 @@
 #Define file to be used for segmentation analysis. 
-incsv <- "H:\\Marketing\\Presentations\\External\\RPM\\RPM 2017\\Easy Treesy\\RPMcase2.csv"
+#incsv <- "H:\\Marketing\\Presentations\\External\\RPM\\RPM 2017\\Easy Treesy\\RPMcase2.csv"
+# Assumed this script is stored in folder ..\code
+incsv <- file.path("..", "data", "RPMcase2.csv")
 
 # load data
 infileRaw <- read.csv(incsv, header=T)
